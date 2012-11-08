@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Back to Skool
+Comment=Put your forged report in the Head's safe
+Exec=back_to_skool.py
+Icon=pyskool
+Terminal=false
+Type=Application
+Categories=Game;ArcadeGame;

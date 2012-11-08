@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Skool Daze
+Comment=Remove your report from the school safe before it's too late
+Exec=skool_daze.py
+Icon=pyskool
+Terminal=false
+Type=Application
+Categories=Game;ArcadeGame;
