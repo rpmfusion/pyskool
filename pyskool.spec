@@ -1,14 +1,14 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           pyskool
-Version:        0.6
+Version:        1.0.1
 Release:        1%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
 # Proprietary graphics from the original game are used
 License:        GPLv3+ and proprietary
 URL:            http://pyskool.ca
-Source0:        http://pyskool.ca/downloads/%{name}/%{name}-%{version}.tar.bz2
+Source0:        http://pyskool.ca/downloads/%{name}/%{name}-%{version}.tar.xz
 Source1:        skool_daze.desktop
 Source2:        back_to_skool.desktop
 
@@ -47,7 +47,8 @@ rm -rf %{buildroot}
 
 # Install game data
 install -d %{buildroot}%{_datadir}/%{name}
-cp -ar images ini pyskool.ini sounds %{buildroot}%{_datadir}/%{name}
+cp -ar images images.ini ini pyskool.ini sounds \
+  %{buildroot}%{_datadir}/%{name}
 
 # Install icon
 install -d %{buildroot}%{_datadir}/icons/hicolor/32x32/apps
@@ -61,6 +62,10 @@ desktop-file-install \
 desktop-file-install \
   --dir %{buildroot}%{_datadir}/applications \
   %{SOURCE2}
+
+# Install man pages
+mkdir -p %{buildroot}%{_mandir}/man6/
+install -p -m0644 man/* %{buildroot}%{_mandir}/man6/
 
 
 %post
@@ -90,8 +95,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/applications/skool_daze.desktop
 %{_datadir}/applications/back_to_skool.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_mandir}/man6/*
 
 
 %changelog
+* Thu Dec 6 2012 Andrea Musuruane <musuruan@gmail.com> 1.0.1-1
+- Updated to upstream 1.0.1
+
 * Sat Jun 1 2011 Andrea Musuruane <musuruan@gmail.com> 0.6-1
 - First release
