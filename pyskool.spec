@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           pyskool
-Version:        1.0.1
+Version:        1.1
 Release:        1%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
@@ -47,7 +47,7 @@ rm -rf %{buildroot}
 
 # Install game data
 install -d %{buildroot}%{_datadir}/%{name}
-cp -ar images images.ini ini pyskool.ini sounds \
+cp -ar icon.png images images.ini ini pyskool.ini sounds \
   %{buildroot}%{_datadir}/%{name}
 
 # Install icon
@@ -65,7 +65,7 @@ desktop-file-install \
 
 # Install man pages
 mkdir -p %{buildroot}%{_mandir}/man6/
-install -p -m0644 man/* %{buildroot}%{_mandir}/man6/
+install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 
 
 %post
@@ -99,8 +99,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Fri Dec 6 2013 Andrea Musuruane <musuruan@gmail.com> 1.1-1
+- Updated to upstream 1.1
+
 * Thu Dec 6 2012 Andrea Musuruane <musuruan@gmail.com> 1.0.1-1
 - Updated to upstream 1.0.1
 
-* Sat Jun 1 2011 Andrea Musuruane <musuruan@gmail.com> 0.6-1
+* Wed Jun 1 2011 Andrea Musuruane <musuruan@gmail.com> 0.6-1
 - First release
