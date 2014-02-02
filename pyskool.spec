@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           pyskool
-Version:        1.1
+Version:        1.1.1
 Release:        1%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
@@ -99,6 +99,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Sun Feb 2 2014 Andrea Musuruane <musuruan@gmail.com> 1.1.1-1
+- Updated to upstream 1.1.1
+
 * Fri Dec 6 2013 Andrea Musuruane <musuruan@gmail.com> 1.1-1
 - Updated to upstream 1.1
 
