@@ -1,7 +1,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
 
 Name:           pyskool
-Version:        1.1.2
+Version:        1.2
 Release:        1%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
@@ -16,6 +16,7 @@ BuildArch:      noarch
 
 BuildRequires:  python-devel
 BuildRequires:  desktop-file-utils
+BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
 Requires:       pygame
 
@@ -47,7 +48,7 @@ rm -rf %{buildroot}
 
 # Install game data
 install -d %{buildroot}%{_datadir}/%{name}
-cp -ar icon.png images images.ini ini pyskool.ini sounds \
+cp -ar icon.png images ini sounds \
   %{buildroot}%{_datadir}/%{name}
 
 # Install icon
@@ -62,6 +63,13 @@ desktop-file-install \
 desktop-file-install \
   --dir %{buildroot}%{_datadir}/applications \
   %{SOURCE2}
+
+# Install appdata
+install -d %{buildroot}%{_datadir}/appdata
+install -p -m 0644 xdg/pyskool.appdata.xml \
+  %{buildroot}%{_datadir}/appdata
+appstream-util validate-relax --nonet \
+  %{buildroot}%{_datadir}/appdata/*.appdata.xml
 
 # Install man pages
 mkdir -p %{buildroot}%{_mandir}/man6/
@@ -95,10 +103,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %{_datadir}/applications/skool_daze.desktop
 %{_datadir}/applications/back_to_skool.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
+%{_datadir}/appdata/%{name}.appdata.xml
 %{_mandir}/man6/*
 
 
 %changelog
+* Sat Jan 17 2015 Andrea Musuruane <musuruan@gmail.com> 1.2-1
+- Updated to upstream 1.2
+- Added appdata
+
 * Sun Jun 15 2014 Andrea Musuruane <musuruan@gmail.com> 1.1.2-1
 - Updated to upstream 1.1.2
 
