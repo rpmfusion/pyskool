@@ -2,7 +2,7 @@
 
 Name:           pyskool
 Version:        1.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
 # Proprietary graphics from the original game are used
@@ -108,6 +108,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Mon Aug 01 2016 Sérgio Basto <sergio@serjux.com> - 1.2-2
+-
+  https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Sat Jan 17 2015 Andrea Musuruane <musuruan@gmail.com> 1.2-1
 - Updated to upstream 1.2
 - Added appdata
