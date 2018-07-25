@@ -1,25 +1,22 @@
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-
 Name:           pyskool
-Version:        1.2
-Release:        5%{?dist}
+Version:        1.2.1
+Release:        1%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
 # Proprietary graphics from the original game are used
 License:        GPLv3+ and proprietary
 URL:            http://pyskool.ca
-Source0:        http://pyskool.ca/downloads/%{name}/%{name}-%{version}.tar.xz
+Source0:        %url/downloads/%{name}/%{name}-%{version}.tar.xz
 Source1:        skool_daze.desktop
 Source2:        back_to_skool.desktop
 
 BuildArch:      noarch
 
-BuildRequires:  python-devel
+BuildRequires:  python2-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
 Requires:       pygame
-
 
 %description
 The games are based in a boys’ school and revolved around the antics of Eric,
@@ -39,12 +36,11 @@ mice, a frog and a girlfriend.
 
 
 %build
-%{__python} setup.py build
+%{py2_build}
 
 
 %install
-rm -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{py2_install}
 
 # Install game data
 install -d %{buildroot}%{_datadir}/%{name}
@@ -76,30 +72,16 @@ mkdir -p %{buildroot}%{_mandir}/man6/
 install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 
 
-%post
-touch --no-create %{_datadir}/icons/hicolor &>/dev/null || :
-
-
-%postun
-if [ $1 -eq 0 ] ; then
-    touch --no-create %{_datadir}/icons/hicolor &>/dev/null
-    gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-fi
-
-
-%posttrans
-gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
-
- 
 %files
 %doc COPYING docs/*
+%license COPYING
 %{_bindir}/ezad_looks.py
 %{_bindir}/back_to_skool.py
 %{_bindir}/skool_daze.py 
 %{_bindir}/skool_daze_take_too.py
 %{_bindir}/back_to_skool_daze.py
-%{python_sitelib}/*
-%{_datadir}/%{name}
+%{python2_sitelib}/*
+%{_datadir}/%{name}/
 %{_datadir}/applications/skool_daze.desktop
 %{_datadir}/applications/back_to_skool.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
@@ -108,6 +90,11 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 
 %changelog
+* Wed Jul 25 2018 Leigh Scott <leigh123linux@googlemail.com> - 1.2.1-1
+- Updated to upstream 1.2.1
+- Remove obsolete scriptlets
+- Update for python changes in F29
+
 * Fri Mar 02 2018 RPM Fusion Release Engineering <leigh123linux@googlemail.com> - 1.2-5
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
