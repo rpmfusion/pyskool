@@ -1,6 +1,6 @@
 Name:           pyskool
 Version:        1.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
 # Proprietary graphics from the original game are used
@@ -12,11 +12,11 @@ Source2:        back_to_skool.desktop
 
 BuildArch:      noarch
 
-BuildRequires:  python2-devel
+BuildRequires:  python3-devel
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
-Requires:       pygame
+Requires:       python3-pygame
 
 %description
 The games are based in a boys’ school and revolved around the antics of Eric,
@@ -36,11 +36,11 @@ mice, a frog and a girlfriend.
 
 
 %build
-%{py2_build}
+%{py3_build}
 
 
 %install
-%{py2_install}
+%{py3_install}
 
 # Install game data
 install -d %{buildroot}%{_datadir}/%{name}
@@ -61,11 +61,11 @@ desktop-file-install \
   %{SOURCE2}
 
 # Install appdata
-install -d %{buildroot}%{_datadir}/appdata
+install -d %{buildroot}%{_datadir}/metainfo
 install -p -m 0644 xdg/pyskool.appdata.xml \
-  %{buildroot}%{_datadir}/appdata
+  %{buildroot}%{_datadir}/metainfo
 appstream-util validate-relax --nonet \
-  %{buildroot}%{_datadir}/appdata/*.appdata.xml
+  %{buildroot}%{_datadir}/metainfo/*.appdata.xml
 
 # Install man pages
 mkdir -p %{buildroot}%{_mandir}/man6/
@@ -73,23 +73,27 @@ install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 
 
 %files
-%doc COPYING docs/*
+%doc docs/*
 %license COPYING
 %{_bindir}/ezad_looks.py
 %{_bindir}/back_to_skool.py
 %{_bindir}/skool_daze.py 
 %{_bindir}/skool_daze_take_too.py
 %{_bindir}/back_to_skool_daze.py
-%{python2_sitelib}/*
+%{python3_sitelib}/*
 %{_datadir}/%{name}/
 %{_datadir}/applications/skool_daze.desktop
 %{_datadir}/applications/back_to_skool.desktop
 %{_datadir}/icons/hicolor/*/apps/%{name}.png
-%{_datadir}/appdata/%{name}.appdata.xml
+%{_datadir}/metainfo/%{name}.appdata.xml
 %{_mandir}/man6/*
 
 
 %changelog
+* Wed Apr 24 2019 Andrea Musuruane <musuruan@gmail.com> - 1.2.1-4
+- Rebuilt for python3
+- Used new AppData directory
+
 * Tue Mar 05 2019 RPM Fusion Release Engineering <leigh123linux@gmail.com> - 1.2.1-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
