@@ -9,10 +9,12 @@ URL:            http://pyskool.ca
 Source0:        %url/downloads/%{name}/%{name}-%{version}.tar.xz
 Source1:        skool_daze.desktop
 Source2:        back_to_skool.desktop
+Patch0:         temporary_python312_fix.patch
 
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
+BuildRequires:  python3-setuptools
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
@@ -32,7 +34,7 @@ mice, a frog and a girlfriend.
 
 
 %prep
-%setup -q
+%autosetup -p1
 
 
 %build
