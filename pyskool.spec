@@ -1,6 +1,6 @@
 Name:           pyskool
 Version:        1.2.1
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
 # Proprietary graphics from the original game are used
@@ -92,6 +92,9 @@ install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 
 
 %changelog
+* Thu Jun 13 2024 Leigh Scott <leigh123linux@gmail.com> - 1.2.1-18
+- Rebuilt for Python 3.13
+
 * Sun Feb 04 2024 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.2.1-17
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_40_Mass_Rebuild
 
