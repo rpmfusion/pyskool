@@ -1,0 +1,37 @@
+From 7b21a534f1c0e647ddcc6544144e68479367364c Mon Sep 17 00:00:00 2001
+From: Richard Dymond <rjdymond@gmail.com>
+Date: Sun, 16 Oct 2022 13:45:30 -0300
+Subject: [PATCH] Handle pygame.key.get_pressed()
+
+---
+ pyskool/input.py | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/pyskool/input.py b/pyskool/input.py
+index 4945734..6d5204f 100644
+--- a/pyskool/input.py
++++ b/pyskool/input.py
+@@ -1,5 +1,5 @@
+ # -*- coding: utf-8 -*-
+-# Copyright 2008, 2010 Richard Dymond (rjdymond@gmail.com)
++# Copyright 2008, 2010, 2022 Richard Dymond (rjdymond@gmail.com)
+ #
+ # This file is part of Pyskool.
+ #
+@@ -38,7 +38,7 @@ def pump(self):
+                 self.key_down_events.append(event)
+         # It's important to collect pressed_keys AFTER clearing the event queue,
+         # otherwise keys may appear to "stick"
+-        self.pressed_keys = list(pygame.key.get_pressed())
++        self.pressed_keys = pygame.key.get_pressed()
+ 
+     def got_quit(self):
+         """Return whether the window close button was clicked."""
+@@ -67,7 +67,6 @@ def is_pressed(self, keys):
+         if not self.writing:
+             for key in keys:
+                 if self.pressed_keys[key]:
+-                    self.pressed_keys[key] = 0
+                     pressed = True
+         return pressed
+ 

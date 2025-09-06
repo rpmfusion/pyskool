@@ -1,0 +1,26 @@
+From 8110d4ad9d7bdd9e383e1ad58b6d1c76f6736ef7 Mon Sep 17 00:00:00 2001
+From: Richard Dymond <rjdymond@gmail.com>
+Date: Fri, 5 Sep 2025 17:03:34 -0300
+Subject: [PATCH] Fix Screen.get_bubble()
+
+pygame 2 does not seem to like rectangles with negative width.
+---
+ pyskool/graphics.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/pyskool/graphics.py b/pyskool/graphics.py
+index f99df9d..b1d80f9 100644
+--- a/pyskool/graphics.py
++++ b/pyskool/graphics.py
+@@ -482,8 +482,9 @@ def get_bubble(self, words, lip_pos, shift):
+         text_x = max(shift, 0) * tile_width
+         max_width = tile_width * self.speech_bubble_size[0] - 2 * min_inset_x
+         width = min(min_inset_x + max_width - inset_x, text.get_width() - text_x)
+-        text_window = text.subsurface((text_x, 0), (width, tile_width))
+-        bubble.blit(text_window, (inset_x, inset_y))
++        if width > 0:
++            text_window = text.subsurface((text_x, 0), (width, tile_width))
++            bubble.blit(text_window, (inset_x, inset_y))
+         return (Image(None, None, bubble), width < 0)
+ 
+     def _update(self, *args):

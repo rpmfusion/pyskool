@@ -1,6 +1,6 @@
 Name:           pyskool
 Version:        1.2.1
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Remakes of Skool Daze and Back to Skool
 
 # Proprietary graphics from the original game are used
@@ -10,11 +10,18 @@ Source0:        %url/downloads/%{name}/%{name}-%{version}.tar.xz
 Source1:        skool_daze.desktop
 Source2:        back_to_skool.desktop
 Patch0:         temporary_python312_fix.patch
+# Fix keypressed using pygame2
+# https://github.com/skoolkid/pyskool/issues/15
+# https://github.com/skoolkid/pyskool/commit/7b21a534f1c0e647ddcc6544144e68479367364c
+Patch1:         keypressed.patch
+# Fix bubble using pygame2
+# https://github.com/skoolkid/pyskool/issues/18
+# https://github.com/skoolkid/pyskool/commit/8110d4ad9d7bdd9e383e1ad58b6d1c76f6736ef7
+Patch2:         bubble.patch
 
 BuildArch:      noarch
 
 BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
 BuildRequires:  desktop-file-utils
 BuildRequires:  libappstream-glib
 Requires:       hicolor-icon-theme
@@ -37,12 +44,17 @@ mice, a frog and a girlfriend.
 %autosetup -p1
 
 
+%generate_buildrequires
+%pyproject_buildrequires
+
+
 %build
-%{py3_build}
+%pyproject_wheel
 
 
 %install
-%{py3_install}
+%pyproject_install
+%pyproject_save_files -L %{name}
 
 # Install game data
 install -d %{buildroot}%{_datadir}/%{name}
@@ -74,7 +86,7 @@ mkdir -p %{buildroot}%{_mandir}/man6/
 install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 
 
-%files
+%files -f %{pyproject_files}
 %doc docs/*
 %license COPYING
 %{_bindir}/ezad_looks.py
@@ -82,7 +94,6 @@ install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 %{_bindir}/skool_daze.py 
 %{_bindir}/skool_daze_take_too.py
 %{_bindir}/back_to_skool_daze.py
-%{python3_sitelib}/*
 %{_datadir}/%{name}/
 %{_datadir}/applications/skool_daze.desktop
 %{_datadir}/applications/back_to_skool.desktop
@@ -92,6 +103,10 @@ install -p -m0644 man/man6/* %{buildroot}%{_mandir}/man6/
 
 
 %changelog
+* Thu Sep 04 2025 Andrea Musuruane <musuruan@gmail.com> - 1.2.1-22
+- Removed deprecated RPM macros for setup.py-based Python builds
+- Added some patch to make the game work under pygame2
+
 * Mon Jul 28 2025 RPM Fusion Release Engineering <sergiomb@rpmfusion.org> - 1.2.1-21
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_43_Mass_Rebuild
 
